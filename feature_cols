@@ -1,0 +1,20 @@
+FEATURE_COLS = [
+    
+    "cpu_request", "mem_request", "disk_request",
+    "scheduling_class", "priority", "priority_norm",
+    "different_machine_constraint", "job_task_count",
+    "task_retry_count",       # task 재시도 횟수
+    "machine_task_density",   # 머신 밀집도
+    "time_bucket_fail_rate",  # 시간대별 실패율
+    "cpu_mem_pressure",       # CPU × MEM 자원 압력
+    "job_fail_rate",          # job 내 실패율
+    "machine_fail_rate",      # 머신 내 실패율
+    "sched_class_fail_rate",  # scheduling class별 실패율
+]
+
+
+def build_dataset(df: pd.DataFrame):
+    sub = df[FEATURE_COLS + ["label"]].dropna()
+    X   = sub[FEATURE_COLS].values.astype(np.float32)
+    y   = sub["label"].values.astype(int)
+    return X, y, FEATURE_COLS
